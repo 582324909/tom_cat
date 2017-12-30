@@ -20,7 +20,14 @@
     [super viewDidLoad];
 }
 
+//这是一个写程序的思路，当这个方法写完，写下一个按钮事件的时候，会发现所用到的方法大多是一样的，所以应该考虑将相同的部分放到一个函数方法里
 - (IBAction)drinkClick:(id)sender {
+    
+    //判断是否在动画，防止连续点击
+    if (self.catImageView.isAnimating) {
+        return;
+    }
+    
     NSMutableArray *picArray = [NSMutableArray array];
     for (NSInteger i = 0; i < 81 ; i++) {
         NSString *picName = @"cat_drink";
@@ -53,14 +60,15 @@
     
 }
 
-- (IBAction)eatClick:(id)sender {
-    [self loadAnimationImagesWithPicName:@"cat_eat" picCount:40];
-}
-
 /*
- 每一个方法其实就是图片名称和图片数量不同，所以把相同的部分放到一起
+ 每一个方法其实就是图片名称和图片数量不同，所以把相同的部分放到一起，不一样的传参数就行了
  */
 -(void)loadAnimationImagesWithPicName:(NSString *)picName picCount:(NSInteger)picCount {
+    
+    if (self.catImageView.isAnimating) {
+        return;
+    }
+    
     NSMutableArray *picArray = [NSMutableArray array];
     for (NSInteger i = 0; i < picCount ; i++) {
         NSString *file = [NSString stringWithFormat:@"%@%04ld.jpg",picName,i];
@@ -78,7 +86,12 @@
     });
 }
 
-//下面方法一起，就不写了
+//下面的点击事件代码就少很多了，这样解约时间和精力，也方便后期维护
+- (IBAction)eatClick:(id)sender {
+    [self loadAnimationImagesWithPicName:@"cat_eat" picCount:40];
+}
+
+//下面方法都是一样的，就不写了
 - (IBAction)scratchClick:(id)sender {
 }
 
